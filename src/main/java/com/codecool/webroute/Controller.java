@@ -14,21 +14,15 @@ public class Controller implements HttpHandler {
 
         String path = httpExchange.getRequestURI().getPath();
 
+
     }
 
     @WebRoute("/test")
     private void onTest(HttpExchange httpExchange) throws IOException {
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/add_student_to_group.twig");
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/test.twig");
         JtwigModel model = JtwigModel.newModel();
         Data data = new Data("This is a test!");
         model.with("data", data);
-        sendResponse(httpExchange, template.render(model));
-    }
-
-    private void sendResponse(HttpExchange httpExchange, String response) throws IOException {
-        httpExchange.sendResponseHeaders(200, response.length());
-        OutputStream os = httpExchange.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
+        ResponseSender.sendResponse(httpExchange, template.render(model));
     }
 }
