@@ -10,7 +10,7 @@ public class WebServer {
     public void start() throws IOException {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(9000), 0);
-        server.createContext("/", new WebController());
+        server.createContext("/", new Controller());
         server.setExecutor(null);
         server.start();
     }
