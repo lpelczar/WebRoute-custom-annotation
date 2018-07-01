@@ -9,8 +9,9 @@ class WebServer {
 
     void start() throws IOException {
 
+        WebController webController = new WebController();
         HttpServer server = HttpServer.create(new InetSocketAddress(9000), 0);
-        server.createContext("/", new RootController());
+        server.createContext("/", new RootController(webController));
         server.setExecutor(null);
         server.start();
     }
