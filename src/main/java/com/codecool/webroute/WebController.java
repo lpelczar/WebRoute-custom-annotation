@@ -27,6 +27,11 @@ class WebController {
         redirectToPath(httpExchange, "/another-test");
     }
 
+    @WebRoute(method = POST, path = "/another-test")
+    void onPostAnotherTest(HttpExchange httpExchange) throws IOException {
+        redirectToPath(httpExchange, "/test");
+    }
+
     private void sendDataToTwig(HttpExchange httpExchange, String dataString) throws IOException {
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/test.twig");
         JtwigModel model = JtwigModel.newModel();
