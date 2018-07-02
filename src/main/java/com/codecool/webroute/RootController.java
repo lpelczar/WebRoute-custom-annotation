@@ -3,7 +3,6 @@ package com.codecool.webroute;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,7 +19,7 @@ public class RootController implements HttpHandler {
 
         String path = httpExchange.getRequestURI().getPath();
         String firstSegment = getFirstSegmentOfURI(path);
-        System.out.println(firstSegment);
+        HttpMethod httpMethod = httpExchange.getRequestMethod().equals("GET") ? HttpMethod.GET : HttpMethod.POST;
 
         Class<WebController> aClass = WebController.class;
 
@@ -31,7 +30,8 @@ public class RootController implements HttpHandler {
                 Annotation annotation = method.getAnnotation(WebRoute.class);
                 WebRoute webRoute = (WebRoute) annotation;
 
-                if (webRoute.value().equals(firstSegment)) {
+                if (webRoute.method().equals(httpMethod) && webRoute.path().equals(firstSegment)) {
+
                     try {
                         method.invoke(webController, httpExchange);
                     } catch (IllegalAccessException | InvocationTargetException e) {
